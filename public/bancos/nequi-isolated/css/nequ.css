@@ -1,0 +1,52 @@
+/* Estilo del contenedor */
+.input-container {
+    position: relative;
+    width: 100%;
+    /* Ancho del input */
+}
+
+/* Estilo del input */
+.input-container input {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    outline: none;
+    font-size: 16px;
+    border-radius: 6px;
+    background-color: #faf8fc;
+}
+
+.input-container input:focus+label,
+.input-container input:not(:placeholder-shown)+label {
+    color: #ff00a0;
+    font-size: 12px;
+    top: 4px;
+    left: 15px;
+}
+
+/* Estilo del label */
+.input-container label {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    font-size: 16px;
+    color: #666;
+    /* Color inicial gris */
+    pointer-events: none;
+    transition: all 0.2s ease;
+    /* Suavidad en el cambio */
+}
+
+/* Es necesario para hacer que el placeholder no se muestre */
+.input-container input::placeholder {
+    color: transparent;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] { -moz-appearance:textfield; }

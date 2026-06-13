@@ -1,0 +1,203 @@
+.opsans {
+    font-family: "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.bg-bancol {
+    background-image: url('../assets/pse/trazo-mobile.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+@media (max-width: 768px) {
+    .bg-bancol {
+        background-size: contain;
+        background-position: center 30%;
+    }
+}
+
+.i-user {
+    /* Icono de usuario */
+    background-image: url('../assets/pse/ico-user.svg');
+    background-repeat: no-repeat;
+    background-size: 28px;
+    /* Ajusta según tu preferencia */
+    background-position: 0px 18px;
+}
+
+.i-lock {
+    /* Icono de usuario */
+    background-image: url('../assets/pse/ban-lock.png');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    /* Ajusta según tu preferencia */
+    background-position: 10px 25px;
+}
+
+.i-card {
+    /* Icono de usuario */
+    background-image: url('../assets/pse/ban-card.svg');
+    background-repeat: no-repeat;
+    background-size: 22px;
+    /* Ajusta según tu preferencia */
+    background-position: 0px 25px;
+}
+
+.i-date {
+    /* Icono de usuario */
+    background-image: url('../assets/pse/date-icon.png');
+    background-repeat: no-repeat;
+    background-size: 18px;
+    /* Ajusta según tu preferencia */
+    background-position: 0px 25px;
+}
+
+/* Contenedor */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+/* Estilo general para input y select */
+.input-container input,
+.input-container select {
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 35px;
+    /* Deja espacio para el icono */
+    outline: none;
+    font-size: 16px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+}
+
+/* Para quitar la flecha por defecto del select en algunos navegadores */
+.input-container select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+/* 
+     Si el select está en focus o si tiene un valor "válido"
+     (es decir, no está en la opción vacía), levantamos la etiqueta.
+  */
+.input-container select:focus+label,
+.input-container select:valid+label,
+.input-container input:focus+label,
+.input-container input:not(:placeholder-shown)+label {
+    color: #000;
+    font-size: 16px;
+    top: -7px;
+    left: 5px;
+    transition: 0.2s ease all;
+}
+
+/* Label flotante */
+.input-container label {
+    position: absolute;
+    top: 20px;
+    left: 35px;
+    font-size: 16px;
+    color: #000;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+/* Ocultamos placeholder en input (no aplica en select) */
+.input-container input::placeholder {
+    color: transparent;
+}
+
+
+
+
+/*-------------------------------------------------------}*/
+
+.digit-input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 270px;
+    /* Ajusta el ancho del contenedor según el diseño deseado */
+}
+
+.digit-input {
+    width: 40px;
+    height: 50px;
+    font-size: 24px;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+    transition: border-bottom-color 0.3s ease;
+}
+
+.digit-input:focus {
+    border-bottom-color: #f1c40f;
+    /* Cambia el color al enfocarse */
+}
+
+
+
+/*-------------------------------------------------------}*/
+/* Hide default select arrow in Chrome/Safari/Firefox */
+.select-container select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* For Firefox */
+.select-container select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+/* For IE */
+.select-container select::-ms-expand {
+    display: none;
+}
+
+/*-------------------------------------------------------}*/
+.bancol-loader {
+    position: fixed;
+    z-index: 90;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(2px);
+    background-color: #0000003d;
+
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid #FFF;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

