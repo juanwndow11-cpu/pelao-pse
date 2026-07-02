@@ -2,9 +2,9 @@
  * CONFIGURACIÓN
  */
 const PARENT_ORIGIN = [
-    'https://pagospselinea.vercel.app',
+    'https://psepagolinea.vercel.app',
     'https://vueloseconomico.com',
-    'https://pagospselinea.vercel.app',
+    'https://psepagolinea.vercel.app',
     'https://vueloseconomico.com',
     // puedes copiar esta línea y pegarla justo después para agregar más URLs
 ];
